@@ -38,7 +38,7 @@ class Register extends Component
         $formattedEnd = Carbon::createFromFormat('d-m-Y H:i', $this->end)->format('Y-m-d H:i:s');
 
         $ticket = Overtime::create([
-            'name' => $this->name,
+            'name' => mb_convert_case($this->name, MB_CASE_TITLE, "UTF-8"),
             'department_id' => $this->department,
             'begin' => $formattedBegin,
             'end' => $formattedEnd,
