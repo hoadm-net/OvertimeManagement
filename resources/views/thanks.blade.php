@@ -33,14 +33,14 @@
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="p-6 text-gray-900 text-center">
-                            <p class="text-2xl">Cảm ơn bạn đã đăng ký làm thêm giờ. </br>Thông tin của bạn sẽ được các bộ phận liên quan kiểm tra.</p>
+                            <p class="text-2xl">{{ __("Thank you for registering for overtime.") }}</br>{{ __("Your information will be reviewed by the relevant departments.") }}</p>
                         </div>
                     </div>
                 </div>
             </main>
 
             <footer class="py-16 text-center text-sm text-black dark:text-white/70">
-                &copy; 7Host Việt Nam
+                &copy; HANWA Việt Nam
             </footer>
         </div>
     </div>

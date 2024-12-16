@@ -2,68 +2,134 @@
     <form
         wire:submit="submit"
         class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
-                {{ __('Fullname') }}
-            </label>
-            <input
-                wire:model="name"
-                class="border-gray-300 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="fullname"
-                type="text"
-                placeholder="{{ __('Fullname') }}">
 
-            @error('name') <span class="error">{{ $message }}</span> @enderror
-        </div>
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+            <label class="block text-black">
+                {{ __('Fullname') }}
+
+                <input
+                    wire:model="name"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    id="fullname"
+                    type="text">
+            </label>
+
+            @error('name') <span class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-black">
+                {{ __('Email') }} ({{ __('Optional') }})
+
+                <input
+                    wire:model="email"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    id="email"
+                    type="email">
+            </label>
+
+            @error('email') <span class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-black">
                 {{ __('Department') }}
+
+                <select
+                    wire:model="department"
+                    id="department"
+                    name="department"
+                    class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                >
+                    <option>---------------</option>
+                    @foreach($departments as $dep)
+                        <option value="{{ $dep->id }}">{{ $dep->name }}</option>
+                    @endforeach
+                </select>
             </label>
-            <select
-                wire:model="department"
-                id="department"
-                name="department"
-                class="border-gray-300 shadow col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-700 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                <option>---------------</option>
-                @foreach($departments as $dep)
-                    <option value="{{ $dep->id }}">{{ $dep->name }}</option>
-                @endforeach
-            </select>
-            @error('department') <span class="error">{{ $message }}</span> @enderror
+
+            @error('department') <span class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</span> @enderror
         </div>
+
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="begin">
-                {{ __('Begin') }}
+            <label class="block text-black">
+                {{ __('Shift') }}
+
+                <input
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    type="text"
+                    id="shift"
+                    wire:model="shift"
+                >
             </label>
-            <input
-                class="hw-dt border-gray-300 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="begin"
-                type="text"
-                wire:model="begin"
-            >
-            @error('begin') <span class="error">{{ $message }}</span> @enderror
+
+            @error('shift') <span class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</span> @enderror
         </div>
+
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="end">
-                {{ __('End') }}
+            <label class="block text-black">
+                {{ __('Start Time') }}
+
+                <input
+                    class="hw-dt mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    id="begin"
+                    type="text"
+                    wire:model="begin"
+                >
             </label>
-            <input
-                class="hw-dt border-gray-300 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                type="text"
-                id="end"
-                wire:model="end"
-            >
-            @error('end') <span class="error">{{ $message }}</span> @enderror
+
+            @error('begin') <span class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</span> @enderror
         </div>
+
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
+            <label class="block text-black">
+                {{ __('End Time') }}
+
+                <input
+                    class="hw-dt mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    type="text"
+                    id="end"
+                    wire:model="end"
+                >
+            </label>
+
+            @error('end') <span class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-black">
                 {{ __('Job Description') }}
+
+                <textarea
+                    wire:model="description"
+                    name="description"
+                    id="description" rows="3"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                ></textarea>
             </label>
-            <textarea
-                wire:model="description"
-                name="description"
-                id="description" rows="3" class="block border-gray-300 shadow  w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"></textarea>
-            @error('description') <span class="error">{{ $message }}</span> @enderror
+
+            @error('description') <span class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="mb-4">
+            <label class="inline-flex items-center">
+                <input
+                    type="checkbox"
+                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50"
+                    wire:model="urgent"
+                >
+                <span class="ml-2">{{ __('Urgent') }}</span>
+            </label>
+        </div>
+
+        <div class="mb-4">
+            <label class="inline-flex items-center">
+                <input
+                    type="checkbox"
+                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50"
+                    wire:model="bus">
+                <span class="ml-2">{{ __('Company Bus') }}</span>
+            </label>
         </div>
 
         <div class="flex items-center justify-between">

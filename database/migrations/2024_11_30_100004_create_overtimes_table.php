@@ -15,12 +15,15 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
+            $table->string('email')->nullable();
             $table->foreignId('department_id')->constrained('departments');
             $table->dateTime('begin');
             $table->dateTime('end');
             $table->string('description');
 
-            $table->enum('status', ['pending', 'manager_approved', 'bod_approved', 'denied'])->default('pending');
+            $table->enum('status', ['pending', 'urgent', 'manager_approved', 'bod_approved', 'denied'])->default('pending');
+
+            $table->boolean('bus')->default(false);
 
             $table->foreignId('manager_id')->nullable();
             $table->string('manager_note')->nullable();
