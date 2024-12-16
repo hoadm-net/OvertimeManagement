@@ -34,7 +34,7 @@
                     </main>
 
                     <footer class="py-16 text-center text-sm text-black dark:text-white/70">
-                        &copy; 7Host Việt Nam
+                        &copy; HANWA Việt Nam
                     </footer>
                 </div>
             </div>
