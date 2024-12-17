@@ -4,10 +4,10 @@
             <thead>
                 <tr class="bg-blue-500 text-white">
                     <th class="px-6 py-3 text-left">#</th>
-                    <th class="px-6 py-3 text-left">Họ tên</th>
-                    <th class="px-6 py-3 text-left">Bắt đầu</th>
-                    <th class="px-6 py-3 text-left">Kết thúc</th>
-                    <th class="px-6 py-3 text-left">Mô tả công việc</th>
+                    <th class="px-6 py-3 text-left">{{ __("Full Name") }}</th>
+                    <th class="px-6 py-3 text-left">{{ __("Start Time") }}</th>
+                    <th class="px-6 py-3 text-left">{{ __("End Time") }}</th>
+                    <th class="px-6 py-3 text-left">{{ __("Job Description") }}</th>
                     <th></th>
                 </tr>
             </thead>
@@ -23,7 +23,7 @@
                         <button
                             class="mr-4 bg-green-500 text-white px-2 py-1 rounded-lg hover:bg-green-600 focus:ring focus:ring-green-300 transition duration-200"
                             wire:click="$dispatch('openModal', { component: 'check-overtime', arguments: { ot: {{ $ot->id }} }})"
-                        >Duyệt</button>
+                        >Approve</button>
                     </td>
                 </tr>
                 @endforeach

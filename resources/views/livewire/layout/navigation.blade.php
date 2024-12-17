@@ -46,7 +46,7 @@ new class extends Component
 
                     @if(auth()->user()->isHR())
                         <x-nav-link :href="route('statistics')" :active="request()->routeIs('statistics')" wire:navigate>
-                            {{ __('statistics') }}
+                            {{ __('Statistics') }}
                         </x-nav-link>
                     @endif
                 </div>

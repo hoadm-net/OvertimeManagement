@@ -5,7 +5,7 @@
 
         <div class="mb-4">
             <label class="block text-black">
-                {{ __('Fullname') }}
+                {{ __('Full Name') }}
 
                 <input
                     wire:model="name"

@@ -1,7 +1,7 @@
 <div>
 
     <div class="mb-4 border-b-2 my-2">
-        <h3 class="text-lg font-semibold mb-2">Danh sách quản trị viên</h3>
+        <h3 class="text-lg font-semibold mb-2">{{ __("Users") }}</h3>
         <button
             wire:click="$dispatch('openModal', { component: 'add-manager', arguments: { department: {{ $department }} }})"
             class="mb-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:ring focus:ring-blue-300 transition duration-200">

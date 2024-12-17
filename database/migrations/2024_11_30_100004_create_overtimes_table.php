@@ -20,7 +20,7 @@ return new class extends Migration
             $table->dateTime('begin');
             $table->dateTime('end');
             $table->string('description');
-
+            $table->string('shift')->nullable();
             $table->enum('status', ['pending', 'urgent', 'manager_approved', 'bod_approved', 'denied'])->default('pending');
 
             $table->boolean('bus')->default(false);

@@ -5,11 +5,11 @@
             <thead>
                 <tr class="bg-gray-200 text-gray-700">
                     <th class="px-6 py-3 border border-gray-300 text-left text-sm font-medium">ID</th>
-                    <th class="px-6 py-3 border border-gray-300 text-left text-sm font-medium">Tên</th>
+                    <th class="px-6 py-3 border border-gray-300 text-left text-sm font-medium">{{ __("Full Name") }}</th>
                     <th class="px-6 py-3 border border-gray-300 text-left text-sm font-medium">Email</th>
-                    <th class="px-6 py-3 border border-gray-300 text-left text-sm font-medium">Trạng thái</th>
-                    <th class="px-6 py-3 border border-gray-300 text-left text-sm font-medium">Vai trò</th>
-                    <th class="px-6 py-3 border border-gray-300 text-left text-sm font-medium">Hành động</th>
+                    <th class="px-6 py-3 border border-gray-300 text-left text-sm font-medium">{{ __("Status") }}</th>
+                    <th class="px-6 py-3 border border-gray-300 text-left text-sm font-medium">{{ __("Role") }}</th>
+                    <th class="px-6 py-3 border border-gray-300 text-left text-sm font-medium">{{ __("Action") }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,13 +21,13 @@
                     <td class="px-6 py-3 border border-gray-300 text-sm">@if ($u->active) ✅ @else ❌ @endif</td>
                     <td class="px-6 py-3 border border-gray-300 text-sm">
                         @if ($u->role == 'su')
-                            Quản trị viên
+                            {{ __("Full Administrator") }}
                         @elseif ($u->role == 'hr')
-                            Nhân sự
+                            {{ __("HR Staff") }}
                         @elseif ($u->role == 'manager')
-                            Quản lý
+                            {{ __('Manager') }}
                         @elseif ($u->role == 'bod')
-                            Ban giám đốc
+                            {{ __('BoD') }}
                         @endif
                     </td>
                     <td class="px-6 py-3 border border-gray-300 text-sm">

@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'log'),
+    'default' => 'resend',
 
     /*
     |--------------------------------------------------------------------------
@@ -36,6 +36,12 @@ return [
     */
 
     'mailers' => [
+        'mailgun' => [
+            'domain' => env('MAILGUN_DOMAIN'),
+            'secret' => env('MAILGUN_SECRET'),
+            'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
+            'scheme' => 'https',
+        ],
 
         'smtp' => [
             'transport' => 'smtp',
@@ -82,16 +88,14 @@ return [
         'failover' => [
             'transport' => 'failover',
             'mailers' => [
-                'smtp',
-                'log',
+                'resend',
             ],
         ],
 
         'roundrobin' => [
             'transport' => 'roundrobin',
             'mailers' => [
-                'ses',
-                'postmark',
+                'resend',
             ],
         ],
 
@@ -109,8 +113,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'info@7host.vn'),
+        'name' => env('MAIL_FROM_NAME', 'HANWA Việt Nam'),
     ],
 
 ];

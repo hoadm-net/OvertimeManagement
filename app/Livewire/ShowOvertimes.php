@@ -26,13 +26,14 @@ class ShowOvertimes extends DataTableComponent
     public function filters(): array
     {
         return [
-            SelectFilter::make('Trạng thái', 'status')
+            SelectFilter::make('Status', 'status')
                 ->options([
-                    '' => 'Tất cả',
-                    'pending' => 'Đang chờ',
-                    'manager_approved' => 'Quản lý đã duyệt',
-                    'bod_approved' => 'Giám đốc đã duyệt',
-                    'denied' => 'Đã từ chối'
+                    '' => 'All',
+                    'pending' => 'Pending',
+                    'urgent' => 'Urgent',
+                    'manager_approved' => 'The manager has approved',
+                    'bod_approved' => 'The director has approved',
+                    'denied' => 'Has been declined',
                 ])->filter(function(Builder $builder, string $value) {
 
                     if ($value === 'pending') {
@@ -43,11 +44,13 @@ class ShowOvertimes extends DataTableComponent
                         $builder->where('status', 'bod_approved');
                     } elseif ($value === 'denied') {
                         $builder->where('status', 'denied');
+                    } elseif ($value === 'urgent') {
+                        $builder->where('status', 'urgent');
                     }
                 }),
 
-            SelectFilter::make('Phòng ban', 'department_id')
-                ->options(['' => 'Tất cả'] + Department::all()->pluck('name', 'id')->toArray())
+            SelectFilter::make('Department', 'department_id')
+                ->options(['' => 'All'] + Department::all()->pluck('name', 'id')->toArray())
                 ->filter(function(Builder $builder, string $value) {
                     return $builder->where('department_id', $value);
                 })
@@ -58,20 +61,22 @@ class ShowOvertimes extends DataTableComponent
     {
         return [
             Column::make('ID', 'id'),
-            Column::make('Họ tên', 'name')->searchable(),
-            Column::make('Phòng ban', 'department.name'),
-            Column::make('Thời gian bắt đầu', 'begin'),
-            Column::make('Thời gian kết thúc', 'end'),
-            Column::make('Trạng thái', 'status')
+            Column::make('Full Name', 'name')->searchable(),
+            Column::make('Department', 'department.name'),
+            Column::make('Start Time', 'begin'),
+            Column::make('End Time', 'end'),
+            Column::make('Status', 'status')
                 ->format(function($value, $row) {
                     if ($value == 'pending') {
-                        return "<span style='color: black'>chờ duyệt</span>";
+                        return "<span style='color: black'>Pending</span>";
+                    } elseif ($value == 'urgent') {
+                        return "<span style='color: #ff4c00'>Urgent</span>";
                     } elseif ($value == 'manager_approved') {
-                        return "<span style='color: #1d4ed8'>Quản lý đã duyệt</span>";
+                        return "<span style='color: #1d4ed8'>The manager has approved</span>";
                     } elseif ($value == 'bod_approved') {
-                        return "<span style='color: #047857'>Ban giám đốc đã duyệt</span>";
+                        return "<span style='color: #047857'>The director has approved</span>";
                     } else {
-                        return "<span style='color: #ff4c00'>Đã từ chối</span>";
+                        return "<span style='color: #888888; text-decoration: line-through'>Has been declined</span>";
                     }
                 })->html(),
         ];

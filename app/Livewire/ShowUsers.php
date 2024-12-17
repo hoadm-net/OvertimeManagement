@@ -29,21 +29,21 @@ class ShowUsers extends DataTableComponent
     {
         return [
             Column::make('ID', 'id'),
-            Column::make('Họ tên', 'name')->searchable(),
+            Column::make('Full Name', 'name')->searchable(),
             Column::make('Email', 'email')->searchable(),
-            Column::make('Vai trò', 'role')
+            Column::make('Role', 'role')
                 ->format(function($value, $row) {
                     if ($value == 'su') {
-                        return "Quản trị viên";
+                        return "Super User";
                     } elseif ($value == 'hr') {
-                        return "Nhân viên HCNS";
+                        return "HR Staff";
                     } elseif ($value == 'manager') {
-                        return "Quản lý";
+                        return "Manager";
                     } elseif ($value == 'bod') {
-                        return "Ban giám đốc";
+                        return "Board of Directors";
                     }
                 }),
-            BooleanColumn::make('Trạng thái', 'active'),
+            BooleanColumn::make('Status', 'active'),
 
         ];
     }

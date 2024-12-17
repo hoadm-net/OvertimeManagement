@@ -52,32 +52,52 @@ class OvertimeExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
             '#',
-            'Họ tên',
-            'Ngày bắt đầu',
-            'Ngày kết thúc',
-            'Trạng thái',
+            'Full Name',
+            'Email',
+            'Department',
+            'Shift',
+            'Start Time',
+            'End Time',
+            'Status',
+            'Job Description',
+            'Company Bus'
         ];
     }
 
     public function get_status($status) {
         if ($status == 'pending') {
-            return 'Đang chờ';
+            return 'Pending';
+        } elseif ($status == 'urgent') {
+            return 'Urgent';
         } elseif ($status == 'manager_approved') {
-            return 'Quản lý đã duyệt';
+            return 'The manager has approved';
         } elseif ($status == 'bod_approved') {
-            return 'Giám đốc đã duyệt';
+            return 'The director has approved';
         } elseif ($status == 'denied') {
-            return 'Đã từ chối';
+            return 'Has been declined';
         }
+    }
+
+    public function get_bus($bus) {
+        if ($bus) {
+            return "Yes";
+        }
+
+        return "No";
     }
     public function map($ot): array
     {
         return [
             $ot->id,
             $ot->name,
+            $ot->email,
+            $ot->department->name,
+            $ot->shift,
             Carbon::createFromFormat('Y-m-d H:i:s', $ot->begin)->format('d-m-Y H:i'),
             Carbon::createFromFormat('Y-m-d H:i:s', $ot->end)->format('d-m-Y H:i'),
             $this->get_status($ot->status),
+            $ot->description,
+            $this->get_bus($ot->bus)
         ];
     }
 }

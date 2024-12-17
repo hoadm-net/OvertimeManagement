@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900">
                     <button
                         class="mb-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:ring focus:ring-blue-300 transition duration-200"
-                        onclick="Livewire.dispatch('openModal', { component: 'CreateDepartment' })">Tạo mới phòng ban</button>
+                        onclick="Livewire.dispatch('openModal', { component: 'CreateDepartment' })">{{ __("Add New") }}</button>
 
 
                     <livewire:show-departments />

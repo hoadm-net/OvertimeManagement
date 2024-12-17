@@ -22,8 +22,8 @@ class ShowDepartments extends DataTableComponent
     {
         return [
             Column::make('ID', 'id'),
-            Column::make('Tên', 'name')->searchable(),
-            Column::make('Mô tả', 'description')
+            Column::make('Name', 'name')->searchable(),
+            Column::make('Description', 'description')
         ];
     }
 

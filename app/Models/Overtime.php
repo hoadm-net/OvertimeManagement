@@ -6,7 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Overtime extends Model
 {
-    protected $fillable = ['name', 'department_id', 'begin', 'end', 'description'];
+    protected $fillable = [
+        'name',
+        'email',
+        'department_id',
+        'begin',
+        'end',
+        'description',
+        'status',
+        'bus',
+        'shift'
+    ];
 
     public function department() {
         return $this->belongsTo(Department::class, 'department_id', 'id');

@@ -23,7 +23,7 @@ class ApproveOvetimes extends Component
                 ->paginate(10);
 
         } elseif (Auth::user()->role == 'bod') {
-            $overtimes = Overtime::where('status', 'manager_approved')
+            $overtimes = Overtime::whereIn('status', ['manager_approved', 'urgent'])
                 ->paginate(10);
         }
 

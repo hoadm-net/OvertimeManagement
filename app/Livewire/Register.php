@@ -2,20 +2,24 @@
 
 namespace App\Livewire;
 
+use App\Mail\RequestCreated;
 use App\Models\Department;
 use App\Models\Overtime;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class Register extends Component
 {
     public $name;
+    public $email;
     public $department;
     public $begin;
     public $end;
     public $description;
     public $urgent = false;
     public $bus = false;
+    public $shift;
 
 
     protected $rules = [
@@ -26,6 +30,8 @@ class Register extends Component
         'description' => 'nullable',
         'urgent' => 'required',
         'bus' => 'required',
+        'shift' => 'nullable',
+        'email' => 'nullable|email',
     ];
 
     public function render()
@@ -46,15 +52,22 @@ class Register extends Component
         if ($this->urgent) {
             $status = 'urgent';
         }
-        $ticket = Overtime::create([
+        $overtime = Overtime::create([
             'name' => mb_convert_case($this->name, MB_CASE_TITLE, "UTF-8"),
+            'email' => $this->email,
             'department_id' => $this->department,
             'begin' => $formattedBegin,
             'end' => $formattedEnd,
             'description' => $this->description,
             'status' => $status,
             'bus' => $this->bus,
+            'shift' => $this->shift,
         ]);
+
+        $dep = Department::find($this->department);
+        foreach ($dep->users as $manager) {
+            Mail::to($manager->email)->send(new RequestCreated($overtime));
+        }
 
         return redirect('thanks');
     }

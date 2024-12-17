@@ -5,28 +5,22 @@
         <div class="mb-4">
 
             <ul>
-                <li><strong>Họ tên</strong>: {{ $user->name }}</li>
+                <li><strong>{{ __("Full Name") }}</strong>: {{ $user->name }}</li>
                 <li><strong>Email</strong>: {{ $user->email }}</li>
             </ul>
 
         </div>
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="active">
-                Trạng thái kích hoạt
-            </label>
 
-            <input
-                wire:model="active"
-                class="border-green-300 shadow appearance-none border rounded py-2 px-3 text-green-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="active"
-                type="checkbox"
-                placeholder="{{ __("Active") }}"
-            />
+            <label class="inline-flex items-center">
+                <input type="checkbox"  wire:model="active">
+                <span class="ml-2">{{ __("Active") }}</span>
+            </label>
 
             @error('active') <span class="error">{{ $message }}</span> @enderror
         </div>
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="role">
+            <label class="block text-black">
                 {{ __('Role') }}
             </label>
             <select
@@ -35,16 +29,16 @@
                 wire:model="role"
                 class="border-gray-300 shadow col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-700 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                 <option>-------------------</option>
-                <option value="su" >Quản trị viên</option>
-                <option value="hr" >Nhân viên HCNS</option>
-                <option value="manager">Quản lý</option>
-                <option value="bod" >Ban giám đốc</option>
+                <option value="su" >{{ __("Super User") }}</option>
+                <option value="hr" >{{ __("HR Staff") }}</option>
+                <option value="manager">{{ __("Manager") }}</option>
+                <option value="bod" >{{ __("Board of Directors") }}</option>
             </select>
             @error('role') <span class="error">{{ $message }}</span> @enderror
         </div>
 
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+            <label class="block text-black">
                 {{ __('Password') }}
             </label>
             <input
@@ -59,7 +53,7 @@
         </div>
 
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="password_confirmation">
+            <label class="block text-black">
                 {{ __('Confirm Password') }}
             </label>
             <input

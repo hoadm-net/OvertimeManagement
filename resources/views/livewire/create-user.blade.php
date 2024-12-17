@@ -5,76 +5,84 @@
                 wire:submit="submit"
                 class="bg-white shadow-md rounded px-8 pt-6 pb-8">
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="mail">
+                    <label class="block text-black">
                         {{ __('Email') }}
-                    </label>
-                    <input
-                        wire:model="mail"
-                        class="border-gray-300 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="mail"
-                        type="email"
-                        placeholder="{{ __('Email') }}">
 
-                    @error('mail') <span class="error">{{ $message }}</span> @enderror
+                        <input
+                            wire:model="mail"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            id="mail"
+                            type="email"
+                            placeholder="{{ __('Email') }}">
+                    </label>
+
+                    @error('mail') <span class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="fullname">
+                    <label class="block text-black">
                         {{ __('Fullname') }}
+
+                        <input
+                            wire:model="name"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            id="fullname"
+                            type="text"
+                            placeholder="{{ __('Fullname') }}">
                     </label>
-                    <input
-                        wire:model="name"
-                        class="border-gray-300 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="fullname"
-                        type="text"
-                        placeholder="{{ __('Fullname') }}">
-                    @error('name') <span class="error">{{ $message }}</span> @enderror
+
+                    @error('name') <span class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="role">
+                    <label class="block text-black">
                         {{ __('Role') }}
+
+                        <select
+                            id="role"
+                            name="role"
+                            wire:model="role"
+                            class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <option>-------------------</option>
+                            <option value="su">Quản trị viên</option>
+                            <option value="hr">Nhân viên HCNS</option>
+                            <option value="manager">Quản lý</option>
+                            <option value="bod">Ban giám đốc</option>
+                        </select>
                     </label>
-                    <select
-                        id="role"
-                        name="role"
-                        wire:model="role"
-                        class="border-gray-300 shadow col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-700 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                        <option>-------------------</option>
-                        <option value="su">Quản trị viên</option>
-                        <option value="hr">Nhân viên HCNS</option>
-                        <option value="manager">Quản lý</option>
-                        <option value="bod">Ban giám đốc</option>
-                    </select>
-                    @error('role') <span class="error">{{ $message }}</span> @enderror
+
+                    @error('role') <span class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                    <label class="block text-black">
                         {{ __('Password') }}
-                    </label>
-                    <input
-                        wire:model="password"
-                        class="border-gray-300 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="password"
-                        type="password"
-                        placeholder="{{ __("Password") }}"
-                    />
 
-                    @error('password') <span class="error">{{ $message }}</span> @enderror
+                        <input
+                            wire:model="password"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            id="password"
+                            type="password"
+                            placeholder="{{ __("Password") }}"
+                        />
+                    </label>
+
+
+                    @error('password') <span class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="confirm_password">
+                    <label class="block text-black">
                         {{ __('Confirm Password') }}
+
+                        <input
+                            wire:model="password_confirmation"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            id="confirm_password"
+                            type="password"
+                            placeholder="{{ __("Confirm Password") }}"
+                        />
                     </label>
-                    <input
-                        wire:model="password_confirmation"
-                        class="border-gray-300 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="confirm_password"
-                        type="password"
-                        placeholder="{{ __("Confirm Password") }}"
-                    />
                 </div>
 
                 <div class="flex items-center justify-between">

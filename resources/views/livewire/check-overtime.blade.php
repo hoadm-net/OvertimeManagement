@@ -2,31 +2,46 @@
     <main class="mt-6">
         <div class="grid lg:grid-cols-1 px-8 pt-6 pb-8">
 
-            <h2 class="text-xl text-blue-500 mb-4">Thông tin tăng ca</h2>
+            <h2 class="text-xl text-blue-500 mb-4">{{ __("Overtime Information") }}</h2>
             <ul class="ml-6 mb-4 list-disc">
-                <li><strong>Họ tên: </strong> {{ $overtime->name }}</li>
-                <li><strong>Phòng ban: </strong> {{ $overtime->department->name }}</li>
-                <li><strong>Bắt đầu: </strong> {{ date('d-m-Y H:i:s', strtotime($overtime->begin)) }}</li>
-                <li><strong>Kết thúc: </strong> {{ date('d-m-Y H:i:s', strtotime($overtime->end)) }}</li>
-                <li><strong>Mô tả công việc: </strong> {{ $overtime->description }}</li>
+                <li><strong>{{ __("Full Name") }}: </strong> {{ $overtime->name }}</li>
+                @if ($overtime->email)
+                    <li><strong>{{ __("Email") }}: </strong> {{ $overtime->email }}</li>
+                @endif
+                <li><strong>{{ __("Department") }}: </strong> {{ $overtime->department->name }}</li>
+                <li><strong>{{ __("Shift") }}: </strong> {{ $overtime->shift }}</li>
+                <li><strong>{{ __("Start Time") }}: </strong> {{ date('d-m-Y H:i:s', strtotime($overtime->begin)) }}</li>
+                <li><strong>{{ __("End Time") }}: </strong> {{ date('d-m-Y H:i:s', strtotime($overtime->end)) }}</li>
+                <li><strong>{{ __("Job Description") }}: </strong> {{ $overtime->description }}</li>
+                <li><strong>{{ __("Company Bus") }}: </strong>
+                    @if($overtime->bus)
+                        <svg class="inline-block h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
+                        </svg>
+                    @else
+                        <svg class="inline-block h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
+                        </svg>
+                    @endif
+                </li>
             </ul>
 
             @if ($overtime->status == 'manager_approved')
                 <hr class="mb-4">
-                <h2 class="text-xl text-blue-500 mb-4">Thông tin quản lý</h2>
+                <h2 class="text-xl text-blue-500 mb-4">{{ __("Manager's Approval Information") }}</h2>
                 <ul class="ml-6 mb-4 list-disc">
-                    <li><strong>Quản lý duyệt: </strong> {{ $overtime->manager->name }}</li>
-                    <li><strong>Duyệt lúc: </strong> {{ date('d-m-Y H:i:s', strtotime($overtime->manager_approved_at)) }}</li>
-                    <li><strong>Ghi chú: </strong> {{ $overtime->manager_note }}</li>
+                    <li><strong>{{ __("Manager Name") }}: </strong> {{ $overtime->manager->name }}</li>
+                    <li><strong>{{ __("Approved At") }}: </strong> {{ date('d-m-Y H:i:s', strtotime($overtime->manager_approved_at)) }}</li>
+                    <li><strong>{{ __("Notes") }}: </strong> {{ $overtime->manager_note }}</li>
                 </ul>
             @endif
 
             <hr class="mb-4">
-            <h2 class="text-xl text-blue-500 mb-4">Duyệt đơn</h2>
+            <h2 class="text-xl text-blue-500 mb-4">{{ __("Overtime Request Approval") }}</h2>
 
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="note">
-                    Ghi chú
+                    {{ __("Notes") }}
                 </label>
                 <textarea
                     wire:model="note"
@@ -40,7 +55,7 @@
                 <button
                     wire:click="approve()"
                     class="bg-blue-500 w-full text-white px-4 py-2 rounded hover:bg-blue-600">
-                    Đồng ý
+                    {{ __("Agree") }}
                 </button>
 
                 <!-- Nút màu đỏ -->
@@ -48,7 +63,7 @@
                     wire:click="deny()"
                     wire:confirm="Bạn có chắc muốn từ chối đơn này?"
                     class="bg-red-500 w-full text-white px-4 py-2 rounded hover:bg-red-600">
-                    Không đồng ý
+                    {{ __("Reject") }}
                 </button>
             </div>
 
