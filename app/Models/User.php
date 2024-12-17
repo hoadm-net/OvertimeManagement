@@ -70,6 +70,11 @@ class User extends Authenticatable
         return $this->role == 'manager';
     }
 
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
 
     public function departments() {
         return $this->belongsToMany(Department::class, 'user_department', 'user_id', 'department_id');

@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Mail\RequestCreated;
 use App\Models\Department;
 use App\Models\Overtime;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
@@ -64,10 +65,26 @@ class Register extends Component
             'shift' => $this->shift,
         ]);
 
-        $dep = Department::find($this->department);
-        foreach ($dep->users as $manager) {
-            Mail::to($manager->email)->send(new RequestCreated($overtime));
+        if ($status == 'pending') {
+            $dep = Department::find($this->department);
+            foreach ($dep->users as $manager) {
+                if (!$manager->isActive()) {
+                    continue;
+                }
+
+                Mail::to($manager->email)->send(new RequestCreated($overtime));
+            }
+        } else {
+            // BoD
+            $directors = User::where([
+                ['role', 'bod'],
+                ['active', true]
+            ])->get();
+            foreach ($directors as $director) {
+                Mail::to($director->email)->send(new RequestCreated($overtime));
+            }
         }
+
 
         return redirect('thanks');
     }

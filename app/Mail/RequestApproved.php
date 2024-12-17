@@ -14,12 +14,15 @@ class RequestApproved extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $overtime;
     /**
      * Create a new message instance.
      */
-    public function __construct(public Overtime $overtime)
+    public function __construct(Overtime $overtime)
     {
         //
+        $this->afterCommit();
+        $this->overtime = $overtime;
     }
 
     /**
@@ -37,8 +40,31 @@ class RequestApproved extends Mailable
      */
     public function content(): Content
     {
+        $status = "Has been declined";
+        $style = 'color: #888888; text-decoration: line-through';
+
+        if ($this->overtime->status == 'manager_approved') {
+            $status = "The manager has approved";
+            $style = 'color: #1d4ed8';
+        } elseif ($this->overtime->status = 'bod_approved') {
+            $status = "The director has approved";
+            $style = 'color: #047857';
+        }
+
+
         return new Content(
             view: 'mail.approval-request',
+            with: [
+                'Name' => $this->overtime->name,
+                'Department'=> $this->overtime->department->name,
+                'Shift' => $this->overtime->shift,
+                'Start' => date('d-m-Y H:i', strtotime($this->overtime->begin)),
+                'End' => date('d-m-Y H:i', strtotime($this->overtime->end)),
+                'Description' => $this->overtime->description,
+                'Bus' => $this->overtime->bus ? "Yes" : "No",
+                'Status' => $status,
+                'Style' => $style,
+            ]
         );
     }
 

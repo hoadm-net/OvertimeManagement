@@ -2,9 +2,13 @@
 
 namespace App\Livewire;
 
+use App\Mail\RequestApproved;
+use App\Mail\RequestCreated;
 use App\Models\Overtime;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use LivewireUI\Modal\ModalComponent;
 
 class CheckOvertime extends ModalComponent
@@ -39,6 +43,20 @@ class CheckOvertime extends ModalComponent
             $overtime->manager_approved_at = Carbon::now();
             $overtime->save();
 
+            // gửi 2 cái mails
+            if ($overtime->email) {
+                Mail::to($overtime->email)->send(new RequestApproved($overtime));
+            }
+
+            // gửi mail cho sếp
+            $directors = User::where([
+                ['role', 'bod'],
+                ['active', true]
+            ])->get();
+            foreach ($directors as $director) {
+                Mail::to($director->email)->send(new RequestCreated($overtime));
+            }
+
         } else {
             // Bod
             $overtime->status = 'bod_approved';
@@ -50,6 +68,12 @@ class CheckOvertime extends ModalComponent
 
             $overtime->bod_approved_at = Carbon::now();
             $overtime->save();
+
+
+            // gửi cái mail cho user, nếu có điền
+            if ($overtime->email) {
+                Mail::to($overtime->email)->send(new RequestApproved($overtime));
+            }
         }
 
         return redirect()->route('dashboard');
