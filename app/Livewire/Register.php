@@ -42,6 +42,8 @@ class Register extends Component
         ]);
     }
 
+
+
     public function submit() {
 
         $this->validate();
@@ -53,17 +55,25 @@ class Register extends Component
         if ($this->urgent) {
             $status = 'urgent';
         }
-        $overtime = Overtime::create([
-            'name' => mb_convert_case($this->name, MB_CASE_TITLE, "UTF-8"),
-            'email' => $this->email,
-            'department_id' => $this->department,
-            'begin' => $formattedBegin,
-            'end' => $formattedEnd,
-            'description' => $this->description,
-            'status' => $status,
-            'bus' => $this->bus,
-            'shift' => $this->shift,
-        ]);
+
+        $staffs = explode(',', $this->name);
+
+        foreach ($staffs as $staff) {
+            $staff = trim($staff);
+            if (! empty($staff)) {
+                $overtime = Overtime::create([
+                    'name' => mb_convert_case($staff, MB_CASE_TITLE, "UTF-8"),
+                    'email' => $this->email,
+                    'department_id' => $this->department,
+                    'begin' => $formattedBegin,
+                    'end' => $formattedEnd,
+                    'description' => $this->description,
+                    'status' => $status,
+                    'bus' => $this->bus,
+                    'shift' => $this->shift,
+                ]);
+            }
+        }
 
         if ($status == 'pending') {
             $dep = Department::find($this->department);

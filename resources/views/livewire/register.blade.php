@@ -5,13 +5,14 @@
 
         <div class="mb-4">
             <label class="block text-black">
-                {{ __('Full Name') }}
+                {{ __('Full Name') }} ({{ __("If registering for multiple people, please separate them with commas") }})
 
-                <input
+                <textarea
                     wire:model="name"
+                    name="name"
+                    id="name" rows="2"
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    id="fullname"
-                    type="text">
+                ></textarea>
             </label>
 
             @error('name') <span class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</span> @enderror
