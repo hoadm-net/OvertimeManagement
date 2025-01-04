@@ -12,14 +12,26 @@
                         wire:model="name"
                         class="border-gray-300 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="name"
-                        type="text"
-                        placeholder="Phòng ban">
+                        type="text">
                     @error('name') <span class="error">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                        {{ __("Number of Management Levels") }}
+                    </label>
+                    <input
+                        wire:model="max_level"
+                        class="border-gray-300 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="max_level"
+                        type="number"
+                    >
+                    @error('max_level') <span class="error">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
-                        Mô tả
+                        {{ __('Description') }}
                     </label>
                     <textarea
                         wire:model="description"

@@ -26,14 +26,30 @@
                 </li>
             </ul>
 
-            @if ($overtime->status == 'manager_approved')
-                <hr class="mb-4">
-                <h2 class="text-xl text-blue-500 mb-4">{{ __("Manager's Approval Information") }}</h2>
-                <ul class="ml-6 mb-4 list-disc">
-                    <li><strong>{{ __("Manager Name") }}: </strong> {{ $overtime->manager->name }}</li>
-                    <li><strong>{{ __("Approved At") }}: </strong> {{ date('d-m-Y H:i:s', strtotime($overtime->manager_approved_at)) }}</li>
-                    <li><strong>{{ __("Notes") }}: </strong> {{ $overtime->manager_note }}</li>
-                </ul>
+            @if(count($overtime->logs) > 0)
+                <h2 class="text-xl text-blue-500 mb-4">{{ __("Activity Logs") }}</h2>
+                <table>
+                    <thead class="border-b-2 font-bold">
+                        <tr>
+                            <td>#</td>
+                            <td>Manager</td>
+                            <td>Decision</td>
+                            <td>Notes</td>
+                            <td>Time</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($overtime->logs as $log)
+                         <tr class="border-b">
+                             <td>{{ $loop->index + 1 }}</td>
+                             <td>{{ $log->user->name }}</td>
+                             <td class="capitalize">{{ $log->action }}</td>
+                             <td>{{ $log->notes }}</td>
+                             <td>{{ $log->created_at }}</td>
+                         </tr>
+                    @endforeach
+                    </tbody>
+                </table>
             @endif
 
             <hr class="mb-4">

@@ -7,7 +7,7 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="user">
-                        Danh sách nhân viên
+                        {{ __("Managers") }}
                     </label>
                     <select
                         id="user"
@@ -22,7 +22,18 @@
                     @error('role') <span class="error">{{ $message }}</span> @enderror
                 </div>
 
-
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="level">
+                        {{ __("Level") }} (1 -> {{ $department->max_level }})
+                    </label>
+                    <input
+                        wire:model="level"
+                        class="border-gray-300 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="level"
+                        type="number"
+                    >
+                    @error('level') <span class="error">{{ $message }}</span> @enderror
+                </div>
 
                 <div class="flex items-center justify-between">
                     <button class="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->integer('max_level')->default(1);
             $table->string('description')->nullable();
             $table->timestamps();
         });
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('department_id')->constrained()->onDelete('cascade');
+            $table->integer('level')->default(1);
             $table->timestamps();
         });
     }
@@ -32,7 +34,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_department');
         Schema::dropIfExists('departments');
+        Schema::dropIfExists('user_department');
     }
 };

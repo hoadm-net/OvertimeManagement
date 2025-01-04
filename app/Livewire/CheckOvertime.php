@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use App\Mail\RequestApproved;
 use App\Mail\RequestCreated;
+use App\Mail\RequestRejected;
+use App\Models\Log;
 use App\Models\Overtime;
 use App\Models\User;
 use Carbon\Carbon;
@@ -32,47 +34,36 @@ class CheckOvertime extends ModalComponent
 
     public function approve() {
         $overtime = Overtime::findOrFail($this->ot);
-        if (Auth::user()->role == 'manager') {
-            $overtime->status = 'manager_approved';
-            $overtime->manager_id = Auth::id();
+        Log::create([
+            'overtime_id' => $this->ot,
+            'user_id' => Auth::id(),
+            'action' => 'approved',
+            'notes' => $this->note,
+        ]);
 
-            if ($this->note != null) {
-                $overtime->manager_note = $this->note;
-            }
-
-            $overtime->manager_approved_at = Carbon::now();
+        if ($overtime->current_manager == $overtime->department->max_level) {
+            // trùm cuối đã duyệt
+            $overtime->status = 'approved';
             $overtime->save();
 
-            // gửi 2 cái mails
+            // gửi mail xác nhận đã duyệt
             if ($overtime->email) {
                 Mail::to($overtime->email)->send(new RequestApproved($overtime));
             }
-
-            // gửi mail cho sếp
-            $directors = User::where([
-                ['role', 'bod'],
-                ['active', true]
-            ])->get();
-            foreach ($directors as $director) {
-                Mail::to($director->email)->send(new RequestCreated($overtime));
-            }
-
         } else {
-            // Bod
-            $overtime->status = 'bod_approved';
-            $overtime->manager_id = Auth::id();
-
-            if ($this->note != null) {
-                $overtime->bod_note = $this->note;
-            }
-
-            $overtime->bod_approved_at = Carbon::now();
+            // chuyển cấp
+            $overtime->status = 'processing';
+            $overtime->current_manager += 1;
             $overtime->save();
 
+            foreach ($overtime->department->users as $user) {
+                if (!$user->isActive()) {
+                    continue;
+                }
 
-            // gửi cái mail cho user, nếu có điền
-            if ($overtime->email) {
-                Mail::to($overtime->email)->send(new RequestApproved($overtime));
+                if ($user->pivot->level == $overtime->current_manager) {
+                    Mail::to($user->email)->send(new RequestCreated($overtime));
+                }
             }
         }
 
@@ -81,28 +72,18 @@ class CheckOvertime extends ModalComponent
 
     public function deny() {
         $overtime = Overtime::findOrFail($this->ot);
-        if (Auth::user()->role == 'manager') {
-            $overtime->status = 'denied';
-            $overtime->manager_id = Auth::id();
+        $overtime->status = 'rejected';
+        $overtime->save();
 
-            if ($this->note != null) {
-                $overtime->manager_note = $this->note;
-            }
+        Log::create([
+            'overtime_id' => $this->ot,
+            'user_id' => Auth::id(),
+            'action' => 'rejected',
+            'notes' => $this->note,
+        ]);
 
-            $overtime->manager_approved_at = Carbon::now();
-            $overtime->save();
-
-        } else {
-            // Bod
-            $overtime->status = 'denied';
-            $overtime->manager_id = Auth::id();
-
-            if ($this->note != null) {
-                $overtime->bod_note = $this->note;
-            }
-
-            $overtime->bod_approved_at = Carbon::now();
-            $overtime->save();
+        if ($overtime->email) {
+            Mail::to($overtime->email)->send(new RequestRejected($overtime));
         }
 
         return redirect()->route('dashboard');

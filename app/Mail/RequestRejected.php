@@ -10,11 +10,11 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class RequestApproved extends Mailable
+class RequestRejected extends Mailable
 {
     use Queueable, SerializesModels;
-
     public $overtime;
+
     /**
      * Create a new message instance.
      */
@@ -31,7 +31,7 @@ class RequestApproved extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Your request has been approved',
+            subject: 'Your request has been rejected',
         );
     }
 
@@ -40,11 +40,11 @@ class RequestApproved extends Mailable
      */
     public function content(): Content
     {
-        $status = "The manager has approved";
-        $style = 'color: #047857';
+        $status = "The manager has rejected";
+        $style = 'color: #ff4c00';
 
         return new Content(
-            view: 'mail.approval-request',
+            view: 'mail.rejected-request',
             with: [
                 'Name' => $this->overtime->name,
                 'Department'=> $this->overtime->department->name,

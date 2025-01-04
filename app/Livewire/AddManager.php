@@ -10,9 +10,11 @@ class AddManager extends ModalComponent
 {
     public Department $department;
     public string $user;
+    public int $level;
 
     protected array $rules = [
         'user' => 'required',
+        'level' => 'required|integer|min:1',
     ];
 
     public function render()
@@ -31,7 +33,7 @@ class AddManager extends ModalComponent
     public function submit()
     {
         $this->validate();
-        $this->department->users()->attach($this->user);
+        $this->department->users()->attach($this->user, ['level' => $this->level]);
 
         return redirect()->route('edit-department', $this->department);
     }

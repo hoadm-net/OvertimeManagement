@@ -44,7 +44,9 @@
                 >
                     <option>---------------</option>
                     @foreach($departments as $dep)
+                        @if($dep->isValid())
                         <option value="{{ $dep->id }}">{{ $dep->name }}</option>
+                        @endif
                     @endforeach
                 </select>
             </label>

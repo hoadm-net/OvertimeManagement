@@ -60,11 +60,6 @@ class User extends Authenticatable
         return $this->role == 'hr';
     }
 
-    public function isBoD(): bool
-    {
-        return $this->role == 'bod';
-    }
-
     public function isManager(): bool
     {
         return $this->role == 'manager';
@@ -77,6 +72,17 @@ class User extends Authenticatable
 
 
     public function departments() {
-        return $this->belongsToMany(Department::class, 'user_department', 'user_id', 'department_id');
+        return $this->belongsToMany(
+            Department::class,
+            'user_department',
+            'user_id',
+            'department_id')->withPivot('level');
+    }
+
+    public function managedOvertimes()
+    {
+        return Overtime::whereHas('department', function ($query) {
+            $query->whereIn('id', $this->departments->pluck('id'));
+        })->whereIn('current_manager', $this->departments->pluck('pivot.level'));
     }
 }

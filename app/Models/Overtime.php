@@ -15,7 +15,8 @@ class Overtime extends Model
         'description',
         'status',
         'bus',
-        'shift'
+        'shift',
+        'current_manager'
     ];
 
     public function department() {
@@ -26,8 +27,7 @@ class Overtime extends Model
         return $this->belongsTo(User::class, 'manager_id', 'id');
     }
 
-    public function bod()
-    {
-        return $this->belongsTo(User::class, 'bod_id', 'id');
+    public function logs() {
+        return $this->hasMany(Log::class, 'overtime_id', 'id');
     }
 }

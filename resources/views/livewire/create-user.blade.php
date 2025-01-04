@@ -44,10 +44,9 @@
                             wire:model="role"
                             class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <option>-------------------</option>
-                            <option value="su">Quản trị viên</option>
-                            <option value="hr">Nhân viên HCNS</option>
-                            <option value="manager">Quản lý</option>
-                            <option value="bod">Ban giám đốc</option>
+                            <option value="su">{{ __("Super User") }}</option>
+                            <option value="hr">{{ __("HR Staff") }}</option>
+                            <option value="manager">{{ __("Manager") }}</option>
                         </select>
                     </label>
 

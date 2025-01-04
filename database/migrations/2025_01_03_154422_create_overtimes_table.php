@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('overtimes', function (Blueprint $table) {
             $table->id();
-
             $table->string('name');
             $table->string('email')->nullable();
             $table->foreignId('department_id')->constrained('departments');
@@ -21,20 +20,21 @@ return new class extends Migration
             $table->dateTime('end');
             $table->string('description');
             $table->string('shift')->nullable();
-            $table->enum('status', ['pending', 'urgent', 'manager_approved', 'bod_approved', 'denied'])->default('pending');
+            $table->enum('status', ['pending', 'processing', 'approved', 'rejected'])->default('pending');
 
             $table->boolean('bus')->default(false);
+            $table->integer('current_manager')->default(1);
 
-            $table->foreignId('manager_id')->nullable();
-            $table->string('manager_note')->nullable();
-            $table->dateTime('manager_approved_at')->nullable();
 
-            $table->foreignId('bod_id')->nullable();
-            $table->string('bod_note')->nullable();
-            $table->dateTime('bod_approved_at')->nullable();
+            $table->timestamps();
+        });
 
-            $table->foreign('manager_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('bod_id')->references('id')->on('users')->onDelete('cascade');
+        Schema::create('overtime_approval_history', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('overtime_id')->constrained('overtimes');
+            $table->foreignId('user_id')->constrained('users');
+            $table->enum('action', ['approved', 'rejected'])->default('approved');
+            $table->string('notes')->nullable();
 
             $table->timestamps();
         });
@@ -46,5 +46,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('overtimes');
+        Schema::dropIfExists('overtime_approval_history');
     }
 };

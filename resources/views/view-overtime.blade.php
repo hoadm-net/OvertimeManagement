@@ -20,41 +20,35 @@
                         <li><strong>{{ __("Start Time") }}:</strong> {{  date('d-m-Y H:i:s', strtotime($overtime->begin)) }}</li>
                         <li><strong>{{ __("End Time") }}:</strong> {{ date('d-m-Y H:i:s', strtotime($overtime->end)) }}</li>
                         <li><strong>{{ __("Job Description") }}: </strong> {{ $overtime->description }}</li>
-                        <li><strong>{{ __("Status") }}:</strong>
-                            @if ($overtime->status == 'pending')
-                            <span style='color: black'>{{ __("Pending") }}</span>
-                            @elseif ($overtime->status == 'urgent')
-                                <span style='color: #ff4c00'>{{ __("Urgent") }}</span>
-                            @elseif ($overtime->status == 'manager_approved')
-                                <span style='color: #1d4ed8'>{{ __("The manager has approved") }}</span>
-                            @elseif ($overtime->status == 'bod_approved')
-                            <span style='color: #047857'>{{ __("The director has approved") }}</span>
-                            @else
-                            <span style='color: #888888; text-decoration: line-through'>{{ __("Has been declined") }}</span>
-                            @endif
-                        </li>
+                        <li><strong>{{ __("Status") }}:</strong> <span class="capitalize">{{ $overtime->status }}</span></li>
                     </ul>
                     <hr class="mb-4">
 
-                    @if ($overtime->manager_approved_at)
-                        <h2 class="text-xl mb-2 text-blue-500">{{ __("Manager's Approval Information") }}</h2>
-                        <ul class="list-disc ml-4 mb-4">
-                            <li><strong>{{ __("Manager Name") }}:</strong> {{ $overtime->manager->name }}</li>
-                            <li><strong>{{ __("Approved At") }}:</strong> {{ date('d-m-Y H:i:s', strtotime($overtime->manager_approved_at)) }}</li>
-                            <li><strong>{{ __("Notes") }}:</strong> {{ $overtime->manager_note }}</li>
-                        </ul>
-                        <hr class="mb-4">
+                    @if (count($overtime->logs) > 0)
+                        <h2 class="text-xl text-blue-500 mb-4">{{ __("Activity Logs") }}</h2>
+                        <table class="w-full">
+                            <thead class="border-b-2 font-bold">
+                            <tr>
+                                <td>#</td>
+                                <td>Manager</td>
+                                <td>Decision</td>
+                                <td>Notes</td>
+                                <td>Time</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($overtime->logs as $log)
+                                <tr class="border-b">
+                                    <td>{{ $loop->index + 1 }}</td>
+                                    <td>{{ $log->user->name }}</td>
+                                    <td class="capitalize">{{ $log->action }}</td>
+                                    <td>{{ $log->notes }}</td>
+                                    <td>{{ $log->created_at }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
                     @endif
-
-                    @if ($overtime->bod_approved_at)
-                        <h2 class="text-xl mb-2 text-blue-500">{{ __("Board of Directors' Approval Information") }}</h2>
-                        <ul class="list-disc ml-4 mb-4">
-                            <li><strong>{{ __("Full Name") }}:</strong> {{ $overtime->bod->name }}</li>
-                            <li><strong>{{ __("Approved At") }}:</strong> {{ date('d-m-Y H:i:s', strtotime($overtime->bod_approved_at)) }}</li>
-                            <li><strong>{{ __("Notes") }}:</strong> {{ $overtime->bod_note }}</li>
-                        </ul>
-                    @endif
-
                 </div>
             </div>
         </div>

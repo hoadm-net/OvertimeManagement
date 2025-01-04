@@ -95,7 +95,7 @@ class OvertimeExport implements FromQuery, WithHeadings, WithMapping
             $ot->shift,
             Carbon::createFromFormat('Y-m-d H:i:s', $ot->begin)->format('d-m-Y H:i'),
             Carbon::createFromFormat('Y-m-d H:i:s', $ot->end)->format('d-m-Y H:i'),
-            $this->get_status($ot->status),
+            ucfirst($ot->status),
             $ot->description,
             $this->get_bus($ot->bus)
         ];

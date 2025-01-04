@@ -7,7 +7,6 @@ use App\Models\Overtime;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
-use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 
 class ShowOvertimes extends DataTableComponent
@@ -30,22 +29,18 @@ class ShowOvertimes extends DataTableComponent
                 ->options([
                     '' => 'All',
                     'pending' => 'Pending',
-                    'urgent' => 'Urgent',
-                    'manager_approved' => 'The manager has approved',
-                    'bod_approved' => 'The director has approved',
-                    'denied' => 'Has been declined',
+                    'processing' => 'Processing',
+                    'approved' => 'Approved',
+                    'rejected' => 'Rejected',
                 ])->filter(function(Builder $builder, string $value) {
-
                     if ($value === 'pending') {
                         $builder->where('status', 'pending');
-                    } elseif ($value === 'manager_approved') {
-                        $builder->where('status', 'manager_approved');
-                    } elseif ($value === 'bod_approved') {
-                        $builder->where('status', 'bod_approved');
-                    } elseif ($value === 'denied') {
-                        $builder->where('status', 'denied');
-                    } elseif ($value === 'urgent') {
-                        $builder->where('status', 'urgent');
+                    } elseif ($value === 'processing') {
+                        $builder->where('status', 'processing');
+                    } elseif ($value === 'approved') {
+                        $builder->where('status', 'approved');
+                    } elseif ($value === 'rejected') {
+                        $builder->where('status', 'rejected');
                     }
                 }),
 
@@ -67,17 +62,7 @@ class ShowOvertimes extends DataTableComponent
             Column::make('End Time', 'end'),
             Column::make('Status', 'status')
                 ->format(function($value, $row) {
-                    if ($value == 'pending') {
-                        return "<span style='color: black'>Pending</span>";
-                    } elseif ($value == 'urgent') {
-                        return "<span style='color: #ff4c00'>Urgent</span>";
-                    } elseif ($value == 'manager_approved') {
-                        return "<span style='color: #1d4ed8'>The manager has approved</span>";
-                    } elseif ($value == 'bod_approved') {
-                        return "<span style='color: #047857'>The director has approved</span>";
-                    } else {
-                        return "<span style='color: #888888; text-decoration: line-through'>Has been declined</span>";
-                    }
+                    return "<span class='capitalize'>".$value."</span>";
                 })->html(),
         ];
     }

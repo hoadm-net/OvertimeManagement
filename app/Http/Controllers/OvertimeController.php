@@ -11,8 +11,7 @@ class OvertimeController extends Controller
 {
     public function view(string $id): View
     {
-        \Laravel\Prompts\info(Auth::user()->role);
-        if (Auth::user()->role !== 'su' && Auth::user()->role !== 'hr') {
+        if (Auth::user()->isAdmin() && Auth::user()->isHR()) {
             abort(403);
         }
 

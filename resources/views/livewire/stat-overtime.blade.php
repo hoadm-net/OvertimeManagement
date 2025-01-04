@@ -25,10 +25,9 @@
                         id="status" name="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <option value="">{{ __("All") }}</option>
                         <option value="pending">{{ __("Pending") }}</option>
-                        <option value="urgent">{{ __("Urgent") }}</option>
-                        <option value="manager_approved">{{ __("The manager has approved") }}</option>
-                        <option value="bod_approved">{{ __("The director has approved") }}</option>
-                        <option value="denied">{{ __("Has been declined") }}</option>
+                        <option value="processing">{{ __("Processing") }}</option>
+                        <option value="approved">{{ __("Approved") }}</option>
+                        <option value="rejected">{{ __("Rejected") }}</option>
                     </select>
                 </div>
                 <div>
@@ -75,19 +74,7 @@
                     <td class="px-6 py-4 border-b">{{ $ot->name }} ({{ $ot->department->name }})</td>
                     <td class="px-6 py-4 border-b">{{ date('d-m-Y H:i', strtotime($ot->begin)) }}</td>
                     <td class="px-6 py-4 border-b">{{ date('d-m-Y H:i', strtotime($ot->end)) }}</td>
-                    <td class="px-6 py-4 border-b">
-                        @if ($ot->status == 'pending')
-                            <span style='color: black'>{{ __("Pending") }}</span>
-                        @elseif ($ot->status == 'urgent')
-                            <span style='color: #ff4c00'>{{ __("Urgent") }}</span>
-                        @elseif ($ot->status == 'manager_approved')
-                            <span style='color: #1d4ed8'>{{ __("The manager has approved") }}</span>
-                        @elseif ($ot->status == 'bod_approved')
-                            <span style='color: #047857'>{{ __("The director has approved") }}</span>
-                        @else
-                            <span style='color: #888888; text-decoration: line-through'>{{ __("Has been declined") }}</span>
-                        @endif
-                    </td>
+                    <td class="px-6 py-4 border-b"><span class="capitalize">{{ $ot->status }}</span></td>
                 </tr>
                 @endforeach
                 </tbody>

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('active')->default(true);
-            $table->enum('role', ['manager', 'bod', 'hr', 'su'])->default('manager');
+            $table->enum('role', ['manager', 'hr', 'su'])->default('manager');
         });
     }
 

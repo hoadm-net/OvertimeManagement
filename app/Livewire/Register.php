@@ -42,8 +42,6 @@ class Register extends Component
         ]);
     }
 
-
-
     public function submit() {
 
         $this->validate();
@@ -51,11 +49,11 @@ class Register extends Component
         $formattedBegin = Carbon::createFromFormat('d-m-Y H:i', $this->begin)->format('Y-m-d H:i:s');
         $formattedEnd = Carbon::createFromFormat('d-m-Y H:i', $this->end)->format('Y-m-d H:i:s');
 
-        $status = 'pending';
+        $dep = Department::find($this->department);
+        $current_manager = 1;
         if ($this->urgent) {
-            $status = 'urgent';
+            $current_manager = $dep->max_level;
         }
-
         $staffs = explode(',', $this->name);
 
         foreach ($staffs as $staff) {
@@ -68,33 +66,24 @@ class Register extends Component
                     'begin' => $formattedBegin,
                     'end' => $formattedEnd,
                     'description' => $this->description,
-                    'status' => $status,
+                    'status' => 'pending',
                     'bus' => $this->bus,
                     'shift' => $this->shift,
+                    'current_manager' => $current_manager
                 ]);
             }
         }
 
-        if ($status == 'pending') {
-            $dep = Department::find($this->department);
-            foreach ($dep->users as $manager) {
-                if (!$manager->isActive()) {
-                    continue;
-                }
+        foreach ($dep->users as $manager) {
+            if (!$manager->isActive()) {
+                continue;
+            }
 
+            if ($manager->pivot->level == $current_manager) {
                 Mail::to($manager->email)->send(new RequestCreated($overtime));
             }
-        } else {
-            // BoD
-            $directors = User::where([
-                ['role', 'bod'],
-                ['active', true]
-            ])->get();
-            foreach ($directors as $director) {
-                Mail::to($director->email)->send(new RequestCreated($overtime));
-            }
-        }
 
+        }
 
         return redirect('thanks');
     }

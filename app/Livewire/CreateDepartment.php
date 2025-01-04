@@ -8,10 +8,12 @@ use LivewireUI\Modal\ModalComponent;
 class CreateDepartment extends ModalComponent
 {
     public $name;
+    public $max_level;
     public $description;
 
     protected $rules = [
         'name' => 'required|unique:departments,name',
+        'max_level' => 'required|numeric|min:1',
         'description' => 'nullable',
     ];
 
@@ -21,6 +23,7 @@ class CreateDepartment extends ModalComponent
 
         Department::create([
             'name' => $this->name,
+            'max_level' => $this->max_level,
             'description' => $this->description,
         ]);
 

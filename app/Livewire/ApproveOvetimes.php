@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Department;
 use App\Models\Overtime;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -14,18 +15,13 @@ class ApproveOvetimes extends Component
 
     public function render()
     {
+        $user = Auth::user(); // User đang đăng nhập
 
-        $departments = Auth::user()->departments->pluck('id')->toArray();
-        $overtimes = [];
-        if (Auth::user()->role == 'manager') {
-            $overtimes = Overtime::where('status', 'pending')
-                ->whereIn('department_id', $departments)
-                ->paginate(10);
-
-        } elseif (Auth::user()->role == 'bod') {
-            $overtimes = Overtime::whereIn('status', ['manager_approved', 'urgent'])
-                ->paginate(10);
-        }
+        $overtimes = Overtime::whereHas('department', function ($query) use ($user) {
+            $query->whereIn('id', $user->departments->pluck('id')); // Phòng ban user quản lý
+        })->whereIn('current_manager', $user->departments->pluck('pivot.level')) // Cấp quản lý
+        ->whereIn('status', ['pending', 'processing'])
+        ->paginate(10);
 
         return view('livewire.approve-ovetimes', [
             'overtimes' => $overtimes
