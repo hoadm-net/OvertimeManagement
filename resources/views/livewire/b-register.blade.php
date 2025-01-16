@@ -5,34 +5,27 @@
 
         <div class="mb-4">
             <label class="block text-black">
-                {{ __('Full Name') }} ({{ __("If you want to register multiple people at once, write each person's name on a separate line") }})
-
-                <textarea
-                    wire:model="name"
-                    name="name"
-                    id="name" rows="2"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    required
-                ></textarea>
-            </label>
-
-            @error('name') <span class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</span> @enderror
-        </div>
-
-        <div class="mb-4">
-            <label class="block text-black">
-                {{ __('Email') }}
+                {{ __('Data file') }}
 
                 <input
-                    wire:model="email"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    id="email"
-                    type="email"
+                    wire:model="file"
+                    class="
+                        bg-gray-50 rounded-md
+                        block w-full text-sm text-gray-500
+                       file:mr-4 file:py-2 file:px-4
+                       file:rounded file:border-0
+                       file:text-sm file:font-semibold
+                       file:bg-blue-50 file:text-blue-700
+                       hover:file:bg-blue-100
+                       focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    id="file"
+                    type="file"
                     required
                 >
             </label>
 
-            @error('email') <span class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</span> @enderror
+
+            @error('file') <span class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</span> @enderror
         </div>
 
         <div class="mb-4">
@@ -48,7 +41,7 @@
                     <option>---------------</option>
                     @foreach($departments as $dep)
                         @if($dep->isValid())
-                        <option value="{{ $dep->id }}">{{ $dep->name }}</option>
+                            <option value="{{ $dep->id }}">{{ $dep->name }}</option>
                         @endif
                     @endforeach
                 </select>

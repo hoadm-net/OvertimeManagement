@@ -42,16 +42,16 @@
 
     <script>
         (function() {
-            var today = new Date();
-            today.setMinutes(0);
-            today.setSeconds(0);
+            // var today = new Date();
+            // today.setMinutes(0);
+            // today.setSeconds(0);
 
             flatpickr(".hw-dt", {
                 enableTime: true,
                 dateFormat: "d-m-Y H:i",
                 minuteIncrement: 15,
                 time_24hr: true,
-                minDate: today
+                // minDate: today
             });
         })();
     </script>

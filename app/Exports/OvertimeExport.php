@@ -64,20 +64,6 @@ class OvertimeExport implements FromQuery, WithHeadings, WithMapping
         ];
     }
 
-    public function get_status($status) {
-        if ($status == 'pending') {
-            return 'Pending';
-        } elseif ($status == 'urgent') {
-            return 'Urgent';
-        } elseif ($status == 'manager_approved') {
-            return 'The manager has approved';
-        } elseif ($status == 'bod_approved') {
-            return 'The director has approved';
-        } elseif ($status == 'denied') {
-            return 'Has been declined';
-        }
-    }
-
     public function get_bus($bus) {
         if ($bus) {
             return "Yes";

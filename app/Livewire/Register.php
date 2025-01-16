@@ -25,14 +25,14 @@ class Register extends Component
 
     protected $rules = [
         'name' => 'required',
+        'email' => 'required|email',
         'department' => 'required',
         'begin' => 'required',
         'end' => 'required|after:begin',
         'description' => 'nullable',
         'urgent' => 'required',
         'bus' => 'required',
-        'shift' => 'nullable',
-        'email' => 'nullable|email',
+        'shift' => 'nullable'
     ];
 
     public function render()
@@ -54,7 +54,7 @@ class Register extends Component
         if ($this->urgent) {
             $current_manager = $dep->max_level;
         }
-        $staffs = explode(',', $this->name);
+        $staffs = explode(PHP_EOL, $this->name);
 
         foreach ($staffs as $staff) {
             $staff = trim($staff);
