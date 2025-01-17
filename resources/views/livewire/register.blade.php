@@ -5,7 +5,7 @@
 
         <div class="mb-4">
             <label class="block text-black">
-                {{ __('Full Name') }} ({{ __("If you want to register multiple people at once, write each person's name on a separate line") }})
+                {{ __('Full Name') }}
 
                 <textarea
                     wire:model="name"
