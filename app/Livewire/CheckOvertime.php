@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Mail\AdminApproved;
 use App\Mail\RequestApproved;
 use App\Mail\RequestCreated;
 use App\Mail\RequestRejected;
@@ -48,7 +49,7 @@ class CheckOvertime extends ModalComponent
 
             // gửi mail xác nhận đã duyệt
             if ($overtime->email) {
-                Mail::to($overtime->email)->send(new RequestApproved($overtime));
+                Mail::to($overtime->email)->send(new AdminApproved($overtime));
             }
         } else {
             // chuyển cấp
@@ -65,6 +66,10 @@ class CheckOvertime extends ModalComponent
                     Mail::to($user->email)->send(new RequestCreated($overtime));
                 }
             }
+            if ($overtime->email) {
+                Mail::to($overtime->email)->send(new AdminApproved($overtime));
+            }
+
         }
 
         return redirect()->route('dashboard');

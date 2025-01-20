@@ -30,4 +30,9 @@ class Overtime extends Model
     public function logs() {
         return $this->hasMany(Log::class, 'overtime_id', 'id');
     }
+
+    public function lastLog() {
+        return $this->hasOne(Log::class, 'overtime_id', 'id')->latest('created_at');
+    }
+
 }
