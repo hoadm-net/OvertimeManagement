@@ -138,7 +138,9 @@
         <div class="flex items-center justify-between">
             <button
                 class="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="submit">
+                type="submit"
+                wire:loading.attr="disabled"
+            >
                 {{ __("Submit") }}
             </button>
         </div>

@@ -45,10 +45,12 @@
                     <button
                         class="bg-gray-500 w-full text-white px-4 py-2 rounded hover:bg-gray-600"
                         wire:click="clear()"
+                        wire:loading.attr="disabled"
                     >{{ __("Clear") }}</button>
                     <button
                         class="bg-blue-500 w-full text-white px-4 py-2 rounded hover:bg-blue-600"
                         wire:click="export()"
+                        wire:loading.attr="disabled"
                     >{{ __("Export") }}</button>
                 </div>
             </div>

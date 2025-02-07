@@ -70,6 +70,7 @@
                 <!-- Nút màu xanh -->
                 <button
                     wire:click="approve()"
+                    wire:loading.attr="disabled"
                     class="bg-blue-500 w-full text-white px-4 py-2 rounded hover:bg-blue-600">
                     {{ __("Agree") }}
                 </button>
@@ -77,6 +78,7 @@
                 <!-- Nút màu đỏ -->
                 <button
                     wire:click="deny()"
+                    wire:loading.attr="disabled"
                     wire:confirm="Bạn có chắc muốn từ chối đơn này?"
                     class="bg-red-500 w-full text-white px-4 py-2 rounded hover:bg-red-600">
                     {{ __("Reject") }}
