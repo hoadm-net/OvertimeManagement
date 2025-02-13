@@ -16,7 +16,8 @@ class Overtime extends Model
         'status',
         'bus',
         'shift',
-        'current_manager'
+        'current_manager',
+        'file_name'
     ];
 
     public function department() {
