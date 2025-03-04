@@ -18,6 +18,7 @@ class CheckOvertime extends ModalComponent
 {
     public $ot;
     public ?string $note = null;
+    public $isProcessing = false;
 
     public function render()
     {
@@ -34,6 +35,13 @@ class CheckOvertime extends ModalComponent
     }
 
     public function approve() {
+        if ($this->isProcessing) {
+            return true;
+        } else {
+            $this->isProcessing = true;
+        }
+
+
         $overtime = Overtime::findOrFail($this->ot);
         Log::create([
             'overtime_id' => $this->ot,
@@ -72,10 +80,17 @@ class CheckOvertime extends ModalComponent
 
         }
 
+        $this->isProcessing = false;
         return redirect()->route('dashboard');
     }
 
     public function deny() {
+        if ($this->isProcessing) {
+            return true;
+        } else {
+            $this->isProcessing = true;
+        }
+
         $overtime = Overtime::findOrFail($this->ot);
         $overtime->status = 'rejected';
         $overtime->save();
@@ -91,6 +106,7 @@ class CheckOvertime extends ModalComponent
             Mail::to($overtime->email)->send(new RequestRejected($overtime));
         }
 
+        $this->isProcessing = false;
         return redirect()->route('dashboard');
     }
 }
